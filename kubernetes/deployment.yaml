@@ -20,7 +20,7 @@ spec:
       containers:
       - name: staynest
 
-        image: vyshnavi1411/staynest:v3
+        image: IMAGE_PLACEHOLDER
         imagePullPolicy: Always
 
         ports:
@@ -29,4 +29,3 @@ spec:
         envFrom:
         - secretRef:
             name: staynest-secret
-            

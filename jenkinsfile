@@ -3,13 +3,22 @@ pipeline {
 
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-        IMAGE = "vyshnavi1411/staynest:v3"
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "staynest-cluster"
     }
 
     stages {
 
+        stage('Set Image Tag') {
+    steps {
+        script {
+            env.IMAGE =
+                "vyshnavi1411/staynest:build-${env.BUILD_NUMBER}"
+
+            echo "Image for this build: ${env.IMAGE}"
+        }
+    }
+}
         stage('Docker Build & Push') {
             steps {
 
@@ -113,14 +122,18 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                sh '''
-                kubectl apply -f kubernetes/
+    steps {
+        sh '''
+        kubectl apply -f kubernetes/
 
-                kubectl rollout restart deployment staynest
-                '''
-            }
-        }
+        kubectl set image deployment/staynest \
+            staynest=$IMAGE
+
+        kubectl rollout status deployment/staynest \
+            --timeout=300s
+        '''
+    }
+}
 
         stage('Verify Deployment') {
             steps {
