@@ -4,7 +4,7 @@ pipeline {
     environment {
         PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
         AWS_REGION = "us-east-1"
-        CLUSTER_NAME = "staynest-cluster"
+        CLUSTER_NAME = "staynest-cluster-02"
     }
 
     stages {
