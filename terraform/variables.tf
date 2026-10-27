@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "cluster_name" {
-  default = "staynest-cluster"
+  default = "staynest-cluster-02"
 }
